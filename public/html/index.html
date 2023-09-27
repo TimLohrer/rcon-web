@@ -1,12 +1,13 @@
 {{{ header }}}
 
 <body>
-    <header id="header">
+    <header id="header" class="hidden top">
         <div class="headerBranding">
             <img class="headerIcon" src="/assets/favicon.ico" alt="icon" height="5vh" width="5vh">
             <h2 class="headerTitle">Rcon Client - Web Dashboard</h2>
         </div>
-        <button class="headerAddServerButton" onclick="openAddServerGui()">Add Server</button>
+        <button class="headerAddServerButton" onclick="openAddServerGui()"><img class="addButtonIcon"
+                src="/assets/icons/add.png" alt="addServerIcon">Add Server</button>
     </header>
     <div id="serverInfo"></div>
     <div id="serverConsole">
@@ -15,15 +16,14 @@
     </div>
     <div id="addServerGui" class="addServerGui">
         <div id="addServerGuiContent" class="addServerGuiContent">
-            <div class="addServerGuiContentForm">
+            <div class="addServerGuiContentTitlebar">
                 <h2 class="title">Add Server</h2>
-                <input type="text" id="addServerAdressInput" placeholder="Server Adress (e.g. localhost)">
-                <input type="text" id="addServerPortInput" placeholder="Server Port (e.g. 25575)">
-                <button class="addButton" onclick="addServer()"><img class="addButtonIcon" src="/assets/icons/add.png"
-                        alt="addServerIcon">Add Server</button>
+                <button class="closeButton" onclick="closeAddServerGui()"><img class="closeButtonIcon"
+                        src="/assets/icons/x.png" alt="closeIcon"></button>
             </div>
-            <button class="closeButton" onclick="closeAddServerGui()"><img class="closeButtonIcon"
-                    src="/assets/icons/x.png" alt="closeIcon"></button>
+            <input type="text" id="addServerAdressInput" class="input" placeholder="Server Adress (e.g. localhost)">
+            <input type="text" id="addServerPortInput" class="input" placeholder="Server Port (e.g. 25575)">
+            <button class="addButton" onclick="addServer()">Add Server</button>
         </div>
     </div>
     <!-- <button onclick="createClient()">Connect</button>

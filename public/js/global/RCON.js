@@ -1,9 +1,13 @@
+const rconClients = {}
+
 class RCON {
-    constructor(serverAdress, serverPort) {
+    constructor(name, serverAdress, rconPort, rconPassword) {
+        this.name = name
         this.connected = false
         this.serverAdress = serverAdress
-        this.serverPort = serverPort
-        this.ws = new WebSocket(`ws://${serverAdress}:${serverPort}`)
+        this.rconPort = rconPort
+        this.rconPassword = rconPassword
+        this.ws = new WebSocket(`ws://${window.location.host}/ws`)
         this.ws.onmessage = (message) => this.onMessage(message);
         this.ws.onclose = () => this.onClose();
     }
@@ -16,6 +20,10 @@ class RCON {
         this.sendMessage('AUTH', password)
     }
 
+    sendCommand(command) {
+        this.sendMessage('RUN_RCON_COMMAND', `${this.serverAdress}:${this.rconPort} ${this.rconPassword} ${command}`)
+    }
+
     onMessage(message) {
         message = message.data
         const args = message.split(' ')
@@ -23,10 +31,7 @@ class RCON {
         message = args.slice(1).join(' ')
 
         if (packet == 'AUTH_REQUESTED') {
-            const password = prompt(`${this.serverAdress}:${this.serverPort} has requested authentication. Please enter the password.`)
-            if (password) {
-                this.auth(password)
-            }
+            this.auth(localStorage.getItem('serverPassword') || sessionStorage.getItem('serverPassword'))
         } else if (packet == 'AUTHORIZED') {
             this.connected = true
         } else if (packet == 'UNAUTHORIZED') {

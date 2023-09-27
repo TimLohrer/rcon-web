@@ -24,36 +24,12 @@ body {
 .headerIcon {
     height: 5vh;
     width: 5vh;
-    margin: 10px 15px;
+    margin: 0px 10px 0px 15px;
 }
 
 .headerTitle {
     font-size: 20px;
     color: white;
-}
-
-.headerAddServerButton {
-    margin-right: 15px;
-    padding: 2px;
-    align-items: center;
-    display: flex;
-}
-
-.headerAddServerButton .addButton {
-    width: 110px;
-    height: 27.5px;
-    justify-content: center;
-    align-items: center;
-    padding: 2px;
-    margin: 0px;
-    display: flex;
-}
-
-.headerAddServerButton .addButtonIcon {
-    height: 20px;
-    height: 20px;
-    margin: 0px 2.5px;
-    color: var(--green);
 }
 
 #serverInfo {
@@ -62,7 +38,7 @@ body {
 }
 
 #serverConsole {
-    height: 67vh;
+    height: 63vh;
     background-color: var(--dark);
 }
 
@@ -85,7 +61,7 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 300px;
+    height: 350px;
     background-color: var(--light);
     padding: 5px;
     border-radius: 7.5px;
@@ -108,12 +84,12 @@ body {
     position: absolute;
     display: flex;
     align-self: flex-end;
-    top: 12.5px;
-    right: 12.5px;
+    top: 10px;
+    right: 10px;
     width: 20px;
     height: 20px;
     outline: none;
-    border: none;
+    border: 2px solid var(--red);
     border-radius: 3.5px;
     opacity: 100%;
     background-color: var(--red);
@@ -124,27 +100,22 @@ body {
 
 .addServerGuiContent .closeButtonIcon {
     height: 20px;
-    height: 20px;
-    opacity: 100%;
+    width: 20px;
+    fill: var(--grey);
+    stroke: var(--grey);
+    stroke-width: 5px;
     background-color: transparent;
     transition-duration: 300ms;
 }
 
 .addServerGuiContent .closeButton:hover {
     cursor: pointer;
-    top: 11px;
-    right: 11px;
-    height: 22.5px;
-    width: 22.5px;
-    border-radius: 22.5px;
-    opacity: 90%;
+    background-color: transparent;
     transition-duration: 300ms;
 }
 
-.addServerGuiContent .closeButtonIcon:hover {
-    height: 17.5px;
-    width: 17.5px;
-    opacity: 90%;
+.addServerGuiContent .closeButton:hover .closeButtonIcon {
+    fill: var(--red);
     transition-duration: 300ms;
 }
 
@@ -164,4 +135,28 @@ body {
 .addServerGuiContent .input:focus {
     border: 2px solid var(--blurple);
     transition-duration: 250ms;
+}
+
+.addServerGuiContent .addButton {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 260px;
+    height: 35px;
+    padding: 2px;
+    margin: 20px 15px 15px 15px;
+    font-size: 16.5px;
+    outline: none;
+    background-color: var(--green);
+    color: var(--grey);
+    border: 2px solid var(--green);
+    border-radius: 5px;
+    color: var(--grey);
+}
+
+.addServerGuiContent .addButton:hover {
+    cursor: pointer;
+    background-color: transparent;
+    color: var(--green);
+    transition-duration: 300ms;
 }

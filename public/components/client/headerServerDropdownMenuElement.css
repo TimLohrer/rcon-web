@@ -1,0 +1,51 @@
+.headerServerDropdownMenuElement {
+    display: flex;
+    height: 26.5px;
+    padding: 2.5px;
+    background-color: var(--grey);
+    border: 1px solid var(--grey);
+    color: white;
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    justify-content: center;
+    align-items: center;
+    transition-duration: 300ms;
+}
+
+.headerServerDropdownMenuElement:hover {
+    cursor: pointer;
+    border: 1px solid white;
+    transition-duration: 300ms;
+}
+
+.headerServerDropdownMenuElement.single {
+    border-radius: 5px;
+}
+
+.headerServerDropdownMenuElement.first {
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+}
+
+.headerServerDropdownMenuElement.last {
+    border-bottom-left-radius: 5px;
+    border-bottom-right-radius: 5px;
+}
+
+.headerServerDropdownMenuElement.spacer {
+    cursor: default;
+    height: 5px;
+    background-color: transparent;
+    border: none;
+}
+
+.headerServerDropdownMenuElement.addServer {
+    height: 30px;
+    border: 1px solid var(--grey);
+    color: var(--green);
+    border-radius: 5px;
+}
+
+.headerServerDropdownMenuElement.addServer:hover {
+    color: var(--green);
+    border: 1px solid var(--green);
+}

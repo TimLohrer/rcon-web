@@ -1,9 +1,4 @@
 .headerAddServerButton {
-    margin-right: 15px;
-    padding: 2.5px;
-}
-
-.headerAddServerButton {
     display: flex;
     justify-content: center;
     align-items: center;

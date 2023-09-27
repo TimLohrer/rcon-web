@@ -1,12 +1,11 @@
+let selectedServer = '';
+
 setTimeout(() => {
     loadConfig()
 }, 0)
 
 async function loadConfig() {
-    let password = localStorage.getItem('serverPassword')
-    if (password == null) {
-        password = sessionStorage.getItem('serverPassword');
-    }
+    const password = localStorage.getItem('serverPassword') || sessionStorage.getItem('serverPassword');
     const ws = new WebSocket(`ws://${window.location.host}/ws`)
     ws.onmessage = (msg) => {
         gotMessage = true;
@@ -18,12 +17,25 @@ async function loadConfig() {
             if (password == null) {
                 localStorage.setItem('serverPassword', '')
             }
+            generateServerDropdown()
         } else {
             ws.close()
             document.getElementById('ROOT').innerHTML = passwordGui_component()
             return;
         }
     }
+}
+
+function selectServer(server) {
+    alert(server.name)
+}
+
+function addClientEventByClass(className, event) {
+    document.getElementsByClassName(className)[0].onclick = () => event
+}
+
+function addClientEventById(id, event) {
+    document.getElementById(id).onclick = () => event()
 }
 
 function openAddServerGui() {
@@ -44,7 +56,17 @@ function addServer() {
     if (name == "" || adress == "" || port == "" || password == "") {
         return;
     }
-    const rcon = new RCON(name, adress, port, password)
-    rconClients[name] = rcon
+    if (true) {
+        let savedServers = localStorage.getItem('savedServers');
+        const server = { 'name': name, 'serverAdress': adress, 'rconPort': port, 'rconPassword': password };
+        if (savedServers) {
+            savedServers = JSON.parse(savedServers)
+            savedServers.push(server)
+        } else {
+            savedServers = [server];
+        }
+        localStorage.setItem('savedServers', JSON.stringify(savedServers));
+    }
+    generateServerDropdown()
     closeAddServerGui()
 }

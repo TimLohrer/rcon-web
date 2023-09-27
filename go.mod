@@ -4,6 +4,8 @@ go 1.21.1
 
 require (
 	github.com/gin-gonic/gin v1.9.1
+	github.com/gorilla/websocket v1.5.0
+	github.com/james4k/rcon v0.0.0-20210222224819-34a67ca2b2d6
 	github.com/joho/godotenv v1.5.1
 )
 

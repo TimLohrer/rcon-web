@@ -2,15 +2,20 @@ package main
 
 import (
 	"fmt"
+	"log"
 	"net/http"
 	"os"
 	"strings"
 
 	"github.com/gin-gonic/gin"
+	"github.com/gorilla/websocket"
+	"github.com/james4k/rcon"
 	"github.com/joho/godotenv"
 )
 
 func main() {
+	gin.SetMode(gin.ReleaseMode)
+
 	// setup env
 	envErr := godotenv.Load(".env")
 	if envErr != nil {
@@ -258,6 +263,16 @@ func main() {
 		c.String(http.StatusOK, pageHtml)
 	})
 
+	router.GET("/ws", func(c *gin.Context) {
+		handleWebSocket(c.Writer, c.Request)
+	})
+
+	SERVER_PASSWORD = os.Getenv("PASSWORD")
+
+	if SERVER_PASSWORD != "" {
+		fmt.Println("Loaded server password from .env")
+	}
+
 	router.Static("/assets", "./public/assets")
 
 	err = router.Run(":" + port)
@@ -306,4 +321,121 @@ func stringInList(list []string, target string) bool {
 		}
 	}
 	return false
+}
+
+// SERVER SIDE
+var (
+	upgrader = websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			return true
+		},
+	}
+
+	clients         = make(map[*websocket.Conn]string)
+	SERVER_PASSWORD = ""
+)
+
+func handleWebSocket(w http.ResponseWriter, r *http.Request) {
+	conn, err := upgrader.Upgrade(w, r, nil)
+	if err != nil {
+		fmt.Printf("WebSocket upgrade error: %s\n", err)
+		return
+	}
+
+	clientIP := r.RemoteAddr
+	fmt.Printf("Client %s connected\n", clientIP)
+
+	if clients[conn] == "" {
+		if SERVER_PASSWORD != "" {
+			sendResponse(conn, "PACKET.AUTH_REQUESTED")
+		} else {
+			clients[conn] = clientIP
+			sendResponse(conn, "PACKET.AUTHENTICATED")
+		}
+	}
+
+	for {
+		messageType, p, err := conn.ReadMessage()
+		if err != nil {
+			delete(clients, conn)
+			break
+		}
+
+		if messageType == websocket.TextMessage {
+			message := string(p)
+			args := strings.Split(message, " ")
+			fmt.Printf("Received message from %s: %s\n", clientIP, message)
+
+			PACKET := args[0]
+			args = args[1:]
+
+			// Handle server authentication if enabled
+			if clients[conn] == "" {
+				if SERVER_PASSWORD != "" {
+					if PACKET == "PACKET.AUTH" {
+						if args[0] == SERVER_PASSWORD {
+							fmt.Printf("Authenticated new client using password %s\n", clientIP)
+							sendResponse(conn, "PACKET.AUTHENTICATED")
+							clients[conn] = clientIP
+						} else {
+							fmt.Printf("Closed unauthenticated connection (invalid password) %s\n", clientIP)
+							sendResponse(conn, "PACKET.UNAUTHENTICATED")
+							conn.Close()
+						}
+					} else {
+						fmt.Printf("Closed unauthenticated connection (invalid first packet) %s\n", clientIP)
+						sendResponse(conn, "PACKET.UNAUTHENTICATED")
+						conn.Close()
+					}
+				} else {
+					fmt.Printf("Authenticated new client %s\n", clientIP)
+					clients[conn] = clientIP
+					sendResponse(conn, "PACKET.AUTHENTICATED")
+				}
+			}
+
+			// handle commands
+			if PACKET == "PACKET.RUN_RCON_COMMAND" {
+				if args[0] != "" {
+					RCON_SERVER_ADRESS := args[0]
+					RCON_SERVER_PORT := args[1]
+					RCON_SERVER_PASSWORD := args[2]
+					if RCON_SERVER_ADRESS == "" || RCON_SERVER_PORT == "" || RCON_SERVER_PASSWORD == "" {
+						sendResponse(conn, "PACKET.ERROR missing required rcon server connection information")
+						return
+					}
+					fmt.Println("Command run packet found! " + strings.Join(args[3:], " "))
+					rconClient, err := rcon.Dial(RCON_SERVER_ADRESS+":"+RCON_SERVER_PORT, RCON_SERVER_PASSWORD)
+					if err != nil {
+						log.Println("RCON connection error:", err)
+						sendResponse(conn, "PACKET.RCON_ERROR_RESPONSE "+err.Error())
+						return
+					}
+					defer rconClient.Close()
+
+					_, err = rconClient.Write(strings.Join(args[3:], " "))
+					response, _, err := rconClient.Read()
+
+					if err != nil {
+						fmt.Println("Error sending RCON command:", err)
+						sendResponse(conn, "PACKET.RCON_ERROR_RESPONSE "+err.Error())
+						return
+					}
+					rconClient.Close()
+					sendResponse(conn, "PACKET.RCON_SUCCESS_RESPONSE "+response)
+				} else {
+					fmt.Println("Command run packet found, but missing command args!")
+				}
+			}
+
+		}
+	}
+}
+
+func sendResponse(conn *websocket.Conn, message string) {
+	err := conn.WriteMessage(websocket.TextMessage, []byte(message))
+	if err != nil {
+		fmt.Printf("WebSocket write error: %s\n", err)
+		delete(clients, conn)
+	}
 }

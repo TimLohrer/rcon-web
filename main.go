@@ -72,11 +72,13 @@ func main() {
 
 				componentCss := ""
 				if cssErr == nil && string(componentCssBytes) != "" {
+					componentCss = string(componentCssBytes)
 					componentsCss += "<style component=\"" + componentName + "\" client>\n" + componentCss + "\n</style>\n"
 				}
 
 				componentJs := ""
 				if jsErr == nil && string(componentJsBytes) != "" {
+					componentJs = string(componentJsBytes)
 					componentsJs += "<script component=\"" + componentName + "\" client>\n" + componentJs + "\n</script>\n"
 				}
 

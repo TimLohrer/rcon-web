@@ -30,14 +30,6 @@ function selectServer(server) {
     alert(server.name)
 }
 
-function addClientEventByClass(className, event) {
-    document.getElementsByClassName(className)[0].onclick = () => event
-}
-
-function addClientEventById(id, event) {
-    document.getElementById(id).onclick = () => event()
-}
-
 function openAddServerGui() {
     const gui = document.getElementById('addServerGui');
     gui.style.display = 'block';

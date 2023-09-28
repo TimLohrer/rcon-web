@@ -1,3 +1,5 @@
+let SAVED_SERVERS = []
+
 function generateServerDropdown() {
     let savedServers = localStorage.getItem('savedServers');
     if (!savedServers) {
@@ -6,6 +8,7 @@ function generateServerDropdown() {
         return;
     } else {
         savedServers = JSON.parse(savedServers)
+        SAVED_SERVERS = savedServers
         let ignoreSelected = false;
         document.getElementsByClassName('headerAddServerButton')[0]?.remove();
         document.getElementsByClassName('headerServerDropdownMenu')[0]?.remove();
@@ -25,11 +28,10 @@ function generateServerDropdown() {
             const last = savedServers.indexOf(server) >= savedServers.length - 1;
 
             document.getElementById('headerServerDropdownMenuElements').innerHTML += headerServerDropdownMenuElement_component(first && last ? ' single' : last ? ' last' : first ? ' first' : '', `headerServerDropdownMenuElements-${server.name}`, server.name)
-            addClientEventById(`headerServerDropdownMenuElements-${server.name}`, function x() { console.log("A") })
         });
         document.getElementById('headerServerDropdownMenuElements').innerHTML += headerServerDropdownMenuElement_component(' spacer', '', '')
         document.getElementById('headerServerDropdownMenuElements').innerHTML += headerServerDropdownMenuElement_component(' addServer', 'headerServerDropdownMenuElements-addServer', 'Add Server')
-        addClientEventById('headerServerDropdownMenuElements-addServer', openAddServerGui)
+        document.getElementById('headerServerDropdownMenuElements-addServer').onclick = openAddServerGui
     }
 }
 
@@ -43,6 +45,9 @@ function toggleServerDropdown() {
         }, 500);
     } else {
         dropdownElements.style.display = "block";
+        SAVED_SERVERS.forEach(server => {
+            document.getElementById(`headerServerDropdownMenuElements-${server.name}`).onclick = () => selectServer(server);
+        });
     }
 }
 

@@ -405,6 +405,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 						return
 					}
 					fmt.Println("Command run packet found! " + strings.Join(args[3:], " "))
+
 					rconClient, err := rcon.Dial(RCON_SERVER_ADRESS+":"+RCON_SERVER_PORT, RCON_SERVER_PASSWORD)
 					if err != nil {
 						log.Println("RCON connection error:", err)
@@ -422,7 +423,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 						return
 					}
 					rconClient.Close()
-					sendResponse(conn, "PACKET.RCON_SUCCESS_RESPONSE "+response)
+					sendResponse(conn, "PACKET.RCON_SUCCESS_RESPONSE "+strings.Join(args[3:], ".")+" "+response)
 				} else {
 					fmt.Println("Command run packet found, but missing command args!")
 				}

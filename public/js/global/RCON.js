@@ -1,4 +1,5 @@
 const rconClients = {}
+const INFO_COMMANDS = ['list', 'difficulty', 'seed', 'datapack list', 'banlist', 'whitelist list']
 
 class RCON {
     constructor(server) {
@@ -21,18 +22,29 @@ class RCON {
     }
 
     sendCommand(command) {
-        this.sendMessage('RUN_RCON_COMMAND', `${this.serverAdress}:${this.rconPort} ${this.rconPassword} ${command}`)
+        this.sendMessage('RUN_RCON_COMMAND', `${this.serverAdress} ${this.rconPort} ${this.rconPassword} ${command}`)
     }
 
     loadData() {
-        return;
+        this.recivedServerInfoCommands = [];
+        this.serverInfo = {
+            'onlinePlayers': [],
+            'maxPlayers': 0,
+            'difficulty': '',
+            'seed': '',
+            'datapacks': [],
+            'bans': [],
+            'whitelist': []
+        };
+        INFO_COMMANDS.forEach(command => {
+            this.sendCommand(command);
+        });
     }
 
     onMessage(message) {
         message = message.data
         const args = message.split(' ')
         const packet = args[0].split('.')[1]
-        message = args.slice(1).join(' ')
 
         if (packet == 'AUTH_REQUESTED') {
             this.auth(localStorage.getItem('serverPassword') || sessionStorage.getItem('serverPassword'))
@@ -45,12 +57,49 @@ class RCON {
         } else if (packet == 'UNAUTHENTICATED') {
             this.connected = false;
         } else if (packet == 'RCON_ERROR_RESPONSE') {
+            message = args.slice(1).join(' ')
             alert(message)
         } else if (packet == 'RCON_SUCCESS_RESPONSE') {
-            alert(message)
+            const command = args[1].replaceAll('.', ' ');
+            message = args.slice(2).join(' ')
+            if (INFO_COMMANDS.includes(command)) {
+                this.recivedServerInfoCommands.push(command);
+                if (command == 'list') {
+                    this.serverInfo.maxPlayers = parseInt(message.split(' ')[7]);
+                    this.serverInfo.onlinePlayers = message.split(': ')[1].split(', ');
+                } else if (command == 'difficulty') {
+                    this.serverInfo.difficulty = message.split(' ')[3];
+                } else if (command == 'seed') {
+                    this.serverInfo.seed = message.split(': [')[1].replace(']', '');
+                } else if (command == 'datapack list') {
+                    message.split(': ')[1].split(', ').forEach(datapack => {
+                        datapack = datapack.replace('[', '').replace(']', '');
+                        if (datapack.split(' ').length > 1) {
+                            return;
+                        }
+                        this.serverInfo.datapacks.push(datapack);
+                    });
+                } else if (command == 'banlist') {
+                    if (message.split(':').length <= 1) {
+                        this.serverInfo.bans = [];
+                    } else {
+                        message.split('):')[1].split('.').forEach(bannedPlayer => {
+                            if (bannedPlayer == ['']) {
+                                return;
+                            }
+                            this.serverInfo.bans.push(bannedPlayer.split(' ')[0]);
+                        });
+                    }
+                } else if (command == 'whitelist list') {
+                    message.split(': ')[1].split(', ').forEach(whitelistedPlayer => {
+                        this.serverInfo.whitelist.push(whitelistedPlayer);
+                    });
+                }
+                if (INFO_COMMANDS.length == this.recivedServerInfoCommands.length) {
+                    console.log(this.serverInfo);
+                }
+            }
         }
-
-        console.log(packet, message)
     }
 
     onClose() {

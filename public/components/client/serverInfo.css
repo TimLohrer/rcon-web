@@ -1,0 +1,10 @@
+.serverInfo {
+    height: 25vh;
+    margin: 2vh 1vh 10vh 1vh;
+    padding: 2.5px;
+    border-radius: 10px;
+    background-color: var(--grey);
+    justify-content: space-between;
+    align-items: center;
+    display: flex;
+}

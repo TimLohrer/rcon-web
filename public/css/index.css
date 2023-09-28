@@ -32,13 +32,8 @@ body {
     color: white;
 }
 
-#serverInfo {
-    height: 25vh;
-    background-color: var(--dark);
-}
-
 #serverConsole {
-    height: 63vh;
+    height: 57vh;
     background-color: var(--dark);
 }
 

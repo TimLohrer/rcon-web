@@ -66,7 +66,12 @@ class RCON {
                 this.recivedServerInfoCommands.push(command);
                 if (command == 'list') {
                     this.serverInfo.maxPlayers = parseInt(message.split(' ')[7]);
-                    this.serverInfo.onlinePlayers = message.split(': ')[1].split(', ');
+                    let onlinePlayers = message.split(': ')[1].split(', ');
+                    onlinePlayers.forEach(player => {
+                        if (player) {
+                            this.serverInfo.onlinePlayers.push(player);
+                        }
+                    });
                 } else if (command == 'difficulty') {
                     this.serverInfo.difficulty = message.split(' ')[3];
                 } else if (command == 'seed') {
@@ -96,7 +101,7 @@ class RCON {
                     });
                 }
                 if (INFO_COMMANDS.length == this.recivedServerInfoCommands.length) {
-                    console.log(this.serverInfo);
+                    document.getElementById('serverInfo').innerHTML = serverInfo_component(this.serverInfo);
                 }
             }
         }

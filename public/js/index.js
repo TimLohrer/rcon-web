@@ -4,6 +4,12 @@ setTimeout(() => {
     loadConfig()
 }, 0)
 
+setInterval(() => {
+    if (selectedServer && rconClients[selectedServer].connected) {
+        rconClients[selectedServer].loadData();
+    }
+}, 10 * 1000);
+
 async function loadConfig() {
     const password = localStorage.getItem('serverPassword') || sessionStorage.getItem('serverPassword');
     const ws = new WebSocket(`ws${document.location.href.split('://')[0] == 'https' ? 's' : ''}://${window.location.host}/ws`)

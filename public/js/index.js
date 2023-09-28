@@ -27,7 +27,15 @@ async function loadConfig() {
 }
 
 function selectServer(server) {
-    alert(server.name)
+    if (selectedServer == server.name) {
+        return;
+    } else if (rconClients[server.name]) {
+        selectedServer = server.name;
+        generateServerDropdown();
+        client.loadData();
+    } else {
+        new RCON(server);
+    }
 }
 
 function openAddServerGui() {

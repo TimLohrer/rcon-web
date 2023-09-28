@@ -46,7 +46,9 @@ function toggleServerDropdown() {
     } else {
         dropdownElements.style.display = "block";
         SAVED_SERVERS.forEach(server => {
-            document.getElementById(`headerServerDropdownMenuElements-${server.name}`).onclick = () => selectServer(server);
+            if (selectedServer != server.name) {
+                document.getElementById(`headerServerDropdownMenuElements-${server.name}`).onclick = () => selectServer(server);
+            }
         });
     }
 }

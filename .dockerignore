@@ -1,2 +1,5 @@
 README.md
+.env.example
+go.sum
+./scripts
 Dockerfile

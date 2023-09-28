@@ -4,8 +4,8 @@
     "description": "A advanced minecraft rcon dashboard",
     "start_url": "/",
     "display": "standalone",
-    "background_color": "#ffffff",
-    "theme_color": "#007bff",
+    "background_color": "#202225",
+    "theme_color": "#202225",
     "icons": [
         {
             "src": "/assets/icon.png",

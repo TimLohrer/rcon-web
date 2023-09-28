@@ -4,7 +4,7 @@ async function setupPassword() {
     if (!password) {
         return;
     }
-    const ws = new WebSocket(`ws://${window.location.host}/ws`)
+    const ws = new WebSocket(`ws${document.location.href.split('://')[0] == 'https' ? 's' : ''}://${window.location.host}/ws`)
     ws.onmessage = (msg) => {
         gotMessage = true;
         const packet = msg.data.split(' ')[0].split('.')[1];

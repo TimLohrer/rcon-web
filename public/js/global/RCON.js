@@ -7,7 +7,7 @@ class RCON {
         this.serverAdress = serverAdress
         this.rconPort = rconPort
         this.rconPassword = rconPassword
-        this.ws = new WebSocket(`ws://${window.location.host}/ws`)
+        this.ws = new WebSocket(`ws${document.location.href.split('://')[0] == 'https' ? 's' : ''}://${window.location.host}/ws`)
         this.ws.onmessage = (message) => this.onMessage(message);
         this.ws.onclose = () => this.onClose();
     }

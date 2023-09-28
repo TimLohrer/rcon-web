@@ -8,7 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Fetch all packages
-RUN go mod tidy
+RUN go mod download
 
 # Build the Go application
 RUN go build -o main .

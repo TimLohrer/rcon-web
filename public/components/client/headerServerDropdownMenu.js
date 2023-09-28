@@ -7,6 +7,7 @@ function generateServerDropdown() {
     } else {
         savedServers = JSON.parse(savedServers)
         let ignoreSelected = false;
+        document.getElementsByClassName('headerAddServerButton')[0]?.remove();
         document.getElementsByClassName('headerServerDropdownMenu')[0]?.remove();
         if (!selectedServer) {
             document.getElementById('header').innerHTML += headerServerDropdownMenu_component('Select Server')

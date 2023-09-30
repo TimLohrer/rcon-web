@@ -1,0 +1,17 @@
+.datapacks {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    height: 25vh;
+    margin: 2vh 2vh 2vh 0vh;
+    padding: 10px;
+    border-radius: 10px;
+    background-color: var(--grey);
+}
+
+.datapacks .title {
+    color: white;
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}

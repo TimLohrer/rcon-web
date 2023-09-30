@@ -7,7 +7,7 @@ body {
 
 #header {
     height: 6.5vh;
-    margin: 12.5px 10px 10px 10px;
+    margin: 2.5vh 2vh 1vh 2vh;
     padding: 2.5px;
     border-radius: 10px;
     background-color: var(--grey);
@@ -30,6 +30,10 @@ body {
 .headerTitle {
     font-size: 20px;
     color: white;
+}
+
+#serverInfo {
+    display: flex;
 }
 
 #serverConsole {

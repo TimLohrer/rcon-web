@@ -101,7 +101,12 @@ class RCON {
                     });
                 }
                 if (INFO_COMMANDS.length == this.recivedServerInfoCommands.length) {
-                    document.getElementById('serverInfo').innerHTML = serverInfo_component(this.serverInfo);
+                    let serverInfo = '';
+                    serverInfo += info_component(this.serverInfo);
+                    serverInfo += whitelist_component(this.serverInfo);
+                    serverInfo += bans_component(this.serverInfo);
+                    serverInfo += datapacks_component(this.serverInfo);
+                    document.getElementById('serverInfo').innerHTML = serverInfo;
                 }
             }
         }

@@ -24,6 +24,16 @@ async function loadConfig() {
                 localStorage.setItem('serverPassword', '');
             }
             generateServerDropdown();
+            let selectedServer = localStorage.getItem('selectedServer');
+            selectedServer = JSON.parse(selectedServer);
+            if (selectedServer) {
+                SAVED_SERVERS.forEach(server => {
+                    if (server.name == selectedServer.name) {
+                        selectServer(selectedServer);
+                        return;
+                    }
+                });
+            }
         } else {
             ws.close();
             document.getElementById('ROOT').innerHTML = passwordGui_component();
@@ -37,8 +47,9 @@ function selectServer(server) {
         return;
     } else if (rconClients[server.name]) {
         selectedServer = server.name;
+        localStorage.setItem('selectedServer', JSON.stringify(server));
         generateServerDropdown();
-        client.loadData();
+        rconClients[server.name].loadData(true);
     } else {
         new RCON(server);
     }
@@ -62,9 +73,9 @@ function addServer() {
     if (name == "" || adress == "" || port == "" || password == "") {
         return;
     }
+    const server = { 'name': name, 'serverAdress': adress, 'rconPort': port, 'rconPassword': password };
     if (!rconClients[name]) {
         let savedServers = localStorage.getItem('savedServers');
-        const server = { 'name': name, 'serverAdress': adress, 'rconPort': port, 'rconPassword': password };
         if (savedServers) {
             savedServers = JSON.parse(savedServers);
             savedServers.push(server);
@@ -73,6 +84,7 @@ function addServer() {
         }
         localStorage.setItem('savedServers', JSON.stringify(savedServers));
     }
+    selectServer(server);
     generateServerDropdown();
     closeAddServerGui();
 }

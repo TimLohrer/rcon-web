@@ -3,6 +3,7 @@ const INFO_COMMANDS = ['list', 'difficulty', 'seed', 'datapack list', 'banlist',
 
 class RCON {
     constructor(server) {
+        this.serverJson = server
         this.name = server.name
         this.connected = false
         this.serverAdress = server.serverAdress
@@ -25,8 +26,9 @@ class RCON {
         this.sendMessage('RUN_RCON_COMMAND', `${this.serverAdress} ${this.rconPort} ${this.rconPassword} ${command}`)
     }
 
-    loadData() {
+    loadData(animate) {
         this.recivedServerInfoCommands = [];
+        this.animateIn = animate ?? false;
         this.serverInfo = {
             'onlinePlayers': [],
             'maxPlayers': 0,
@@ -52,8 +54,9 @@ class RCON {
             this.connected = true;
             rconClients[this.name] = this;
             selectedServer = this.name;
+            localStorage.setItem('selectedServer', JSON.stringify(this.serverJson));
             generateServerDropdown();
-            this.loadData();
+            this.loadData(true);
         } else if (packet == 'UNAUTHENTICATED') {
             this.connected = false;
         } else if (packet == 'RCON_ERROR_RESPONSE') {
@@ -106,7 +109,14 @@ class RCON {
                     serverInfo += whitelist_component(this.serverInfo);
                     serverInfo += bans_component(this.serverInfo);
                     serverInfo += datapacks_component(this.serverInfo);
+                    if (this.animateIn) {
+                        serverInfo = serverInfo.replace('class="info"', 'class="hidden left info"');
+                        serverInfo = serverInfo.replace('class="whitelist"', 'class="hidden left whitelist"');
+                        serverInfo = serverInfo.replace('class="bans"', 'class="hidden right bans"');
+                        serverInfo = serverInfo.replace('class="datapacks"', 'class="hidden right datapacks"');
+                    }
                     document.getElementById('serverInfo').innerHTML = serverInfo;
+                    this.animateIn = false;
                 }
             }
         }

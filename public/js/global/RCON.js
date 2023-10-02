@@ -1,5 +1,6 @@
 const rconClients = {};
 const INFO_COMMANDS = ['list', 'difficulty', 'seed', 'datapack list', 'banlist', 'whitelist list'];
+const DEBUG_MODE = true;
 
 class RCON {
     constructor(server) {
@@ -63,13 +64,13 @@ class RCON {
             this.loadData(true);
         } else if (packet == 'UNAUTHENTICATED') {
             this.connected = false;
-        } else if (packet == 'RCON_ERROR_RESPONSE') {
+        } else if (packet == 'RCON_ERROR_RESPONSE' && !DEBUG_MODE) {
             message = args.slice(1).join(' ')
             alert(message)
-        } else if (packet == 'RCON_SUCCESS_RESPONSE') {
+        } else if (packet == 'RCON_SUCCESS_RESPONSE' || (packet == 'RCON_ERROR_RESPONSE' && DEBUG_MODE)) {
             const command = args[1].replaceAll('.', ' ');
             message = args.slice(2).join(' ')
-            if (INFO_COMMANDS.includes(command)) {
+            if (INFO_COMMANDS.includes(command) || DEBUG_MODE) {
                 this.recivedServerInfoCommands.push(command);
                 if (command == 'list') {
                     this.serverInfo.maxPlayers = parseInt(message.split(' ')[7]);
@@ -113,7 +114,7 @@ class RCON {
                         });
                     }
                 }
-                if (INFO_COMMANDS.length == this.recivedServerInfoCommands.length) {
+                if (INFO_COMMANDS.length == this.recivedServerInfoCommands.length || DEBUG_MODE) {
                     let serverInfo = '';
 
                     serverInfo += info_component(this.serverInfo);

@@ -1,0 +1,55 @@
+<div id="manageOnlinePlayerGui" class="manageOnlinePlayerGui">
+    <div id="content" class="content">
+        <div class="titlebar">
+            <h2 class="title">Manage {{ playerName }}</h2>
+            <button class="closeButton" onclick="closeManageOnlinePlayerGui()">
+                <svg class="closeButtonIcon" xmlns="http://www.w3.org/2000/svg" height="24" viewBox="0 -960 960 960"
+                    width="24">
+                    <path
+                        d="m256-200-56-56 224-224-224-224 56-56 224 224 224-224 56 56-224 224 224 224-56 56-224-224-224 224Z" />
+                </svg>
+            </button>
+        </div>
+        <div class="row">
+            <p class="label">Send message</p>
+            <div class="actions">
+                <input type="text" class="input" id="manageOnlinePlayerSendMessage">
+                <button class="runButton send" onclick="sendMessageToPlayer('{{ playerName }}')">Send</button>
+            </div>
+        </div>
+        <div class="row">
+            <p class="label">Execute command</p>
+            <div class="actions">
+                <input type="text" class="input" id="manageOnlinePlayerExecuteCommandAsPlayer">
+                <button class="runButton execute" onclick="executeCommandAsPlayer('{{ playerName }}')">Execute</button>
+            </div>
+        </div>
+        <div class="row">
+            <p class="label">Change gamemode</p>
+            <div class="actions">
+                <button class="gamemodeButton creative"
+                    onclick="changeGamemode('{{ playerName }}', 'creative')">Creative</button>
+                <button class="gamemodeButton survival"
+                    onclick="changeGamemode('{{ playerName }}', 'survival')">Survival</button>
+                <button class="gamemodeButton advanture"
+                    onclick="changeGamemode('{{ playerName }}', 'adventure')">Adventure</button>
+                <button class="gamemodeButton spectator"
+                    onclick="changeGamemode('{{ playerName }}', 'spectator')">Spectator</button>
+            </div>
+        </div>
+        <div class="row">
+            <p class="label">Kick</p>
+            <div class="actions">
+                <input type="text" class="input" id="manageOnlinePlayerKick">
+                <button class="kickBanButton kick" onclick="kickPlayer('{{ playerName }}')">Kick</button>
+            </div>
+        </div>
+        <div class="row">
+            <p class="label">Ban</p>
+            <div class="actions">
+                <input type="text" class="input" id="manageOnlinePlayerBan">
+                <button class="kickBanButton ban" onclick="banPlayer('{{ playerName }}')">Ban</button>
+            </div>
+        </div>
+    </div>
+</div>

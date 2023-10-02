@@ -1,5 +1,5 @@
-const rconClients = {}
-const INFO_COMMANDS = ['list', 'difficulty', 'seed', 'datapack list', 'banlist', 'whitelist list']
+const rconClients = {};
+const INFO_COMMANDS = ['list', 'difficulty', 'seed', 'datapack list', 'banlist', 'whitelist list'];
 
 class RCON {
     constructor(server) {
@@ -22,8 +22,11 @@ class RCON {
         this.sendMessage('AUTH', password)
     }
 
-    sendCommand(command) {
-        this.sendMessage('RUN_RCON_COMMAND', `${this.serverAdress} ${this.rconPort} ${this.rconPassword} ${command}`)
+    sendCommand(command, isLoadDataCommand) {
+        this.sendMessage('RUN_RCON_COMMAND', `${this.serverAdress} ${this.rconPort} ${this.rconPassword} ${command}`);
+        if (!isLoadDataCommand) {
+            this.loadData();
+        }
     }
 
     loadData(animate) {
@@ -35,11 +38,12 @@ class RCON {
             'difficulty': '',
             'seed': '',
             'datapacks': [],
-            'bans': [],
+            'bannedPlayers': 0,
+            // 'bans': [],
             'whitelist': []
         };
         INFO_COMMANDS.forEach(command => {
-            this.sendCommand(command);
+            this.sendCommand(command, true);
         });
     }
 
@@ -88,31 +92,79 @@ class RCON {
                         this.serverInfo.datapacks.push(datapack);
                     });
                 } else if (command == 'banlist') {
-                    if (message.split(':').length <= 1) {
-                        this.serverInfo.bans = [];
-                    } else {
-                        message.split('):')[1].split('.').forEach(bannedPlayer => {
-                            if (bannedPlayer == ['']) {
-                                return;
-                            }
-                            this.serverInfo.bans.push(bannedPlayer.split(' ')[0]);
-                        });
+                    // if (message.split(':').length <= 1) {
+                    //     this.serverInfo.bans = [];
+                    // } else {
+                    //     message.split('):')[1].split('.').forEach(bannedPlayer => {
+                    //         if (bannedPlayer == ['']) {
+                    //             return;
+                    //         }
+                    //         const ban = { 'player': bannedPlayer.split(' ')[0], 'issuer': bannedPlayer.split(': ')[0].split(' ')[4], 'reason': bannedPlayer.split(': ')[1] };
+                    //         this.serverInfo.bans.push(ban);
+                    //     });
+                    // }
+                    if (message.split(':').length > 1) {
+                        this.serverInfo.bannedPlayers = parseInt(message.split(' ')[2]);
                     }
                 } else if (command == 'whitelist list') {
-                    message.split(': ')[1].split(', ').forEach(whitelistedPlayer => {
-                        this.serverInfo.whitelist.push(whitelistedPlayer);
-                    });
+                    if (message.split(': ').length >= 2) {
+                        message.split(': ')[1].split(', ').forEach(whitelistedPlayer => {
+                            this.serverInfo.whitelist.push(whitelistedPlayer);
+                        });
+                    }
                 }
                 if (INFO_COMMANDS.length == this.recivedServerInfoCommands.length) {
                     let serverInfo = '';
+
                     serverInfo += info_component(this.serverInfo);
-                    serverInfo += whitelist_component(this.serverInfo);
-                    serverInfo += bans_component(this.serverInfo);
+
+                    let onlinePlayers = '';
+                    this.serverInfo.onlinePlayers.push('DEFAULT')
+                    this.serverInfo.onlinePlayers.forEach(onlinePlayer => {
+                        onlinePlayer = onlinePlayer_component(onlinePlayer);
+                        if (this.animateIn && this.serverInfo.onlinePlayers.indexOf(onlinePlayer) < 6) {
+                            onlinePlayer = onlinePlayer.replace('class="onlinePlayer"', 'class="hidden top onlinePlayer"');
+                        }
+                        onlinePlayers += onlinePlayer;
+                    });
+                    if (this.serverInfo.onlinePlayers.length == 0) {
+                        onlinePlayers += emptyOnlinePlayers_component(this.animateIn ? 'hidden top ' : '');
+                    }
+                    serverInfo += onlinePlayers_component(onlinePlayers);
+
+                    let whitelistedPlayers = '';
+                    this.serverInfo.whitelist.forEach(whitelistedPlayer => {
+                        whitelistedPlayer = whitelistedPlayer_component(whitelistedPlayer);
+                        if (this.animateIn && this.serverInfo.whitelist.indexOf(whitelistedPlayer) < 6) {
+                            whitelistedPlayer = whitelistedPlayer.replace('class="whitelistedPlayer"', 'class="hidden top whitelistedPlayer"');
+                        }
+                        whitelistedPlayers += whitelistedPlayer;
+                    });
+                    if (this.serverInfo.whitelist.length == 0) {
+                        whitelistedPlayers += emptyWhitelist_component(this.animateIn ? 'hidden top ' : '');
+                    }
+                    serverInfo += whitelist_component(whitelistedPlayers);
+
+                    // let bannedPlayers = '';
+                    // this.serverInfo.bans.forEach(ban => {
+                    //     let bannedPlayer = bannedPlayer_component(ban);
+                    //     if (this.animateIn && this.serverInfo.bans.indexOf(ban) < 6) {
+                    //         bannedPlayer = bannedPlayer.replace('class="bannedPlayer"', 'class="hidden top bannedPlayer"');
+                    //     }
+                    //     bannedPlayers += bannedPlayer;
+                    // });
+                    // if (this.serverInfo.bans.length == 0) {
+                    //     bannedPlayers += emptyBans_component(this.animateIn ? 'hidden top ' : '');
+                    // }
+                    // serverInfo += bans_component(bannedPlayers);
+
                     serverInfo += datapacks_component(this.serverInfo);
+
                     if (this.animateIn) {
                         serverInfo = serverInfo.replace('class="info"', 'class="hidden left info"');
-                        serverInfo = serverInfo.replace('class="whitelist"', 'class="hidden left whitelist"');
-                        serverInfo = serverInfo.replace('class="bans"', 'class="hidden right bans"');
+                        serverInfo = serverInfo.replace('class="onlinePlayers"', 'class="hidden left onlinePlayers"');
+                        serverInfo = serverInfo.replace('class="whitelist"', 'class="hidden right whitelist"');
+                        // serverInfo = serverInfo.replace('class="bans"', 'class="hidden right bans"');
                         serverInfo = serverInfo.replace('class="datapacks"', 'class="hidden right datapacks"');
                     }
                     document.getElementById('serverInfo').innerHTML = serverInfo;

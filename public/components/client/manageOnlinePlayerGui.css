@@ -1,49 +1,5 @@
-body {
-    height: 100vh;
-    background-color: var(--dark);
-    overflow-x: hidden;
-    overflow-y: hidden;
-}
-
-#header {
-    height: 6.5vh;
-    margin: 2.5vh 2vh 1vh 2vh;
-    padding: 2.5px;
-    border-radius: 10px;
-    background-color: var(--grey);
-    justify-content: space-between;
-    align-items: center;
-    display: flex;
-}
-
-.headerBranding {
-    display: flex;
-    align-items: center;
-}
-
-.headerIcon {
-    height: 5vh;
-    width: 5vh;
-    margin: 0px 10px 0px 15px;
-}
-
-.headerTitle {
-    font-size: 20px;
-    color: white;
-}
-
-#serverInfo {
-    display: flex;
-    height: 25vh;
-}
-
-#serverConsole {
-    height: 57vh;
-    background-color: var(--dark);
-}
-
-.addServerGui {
-    display: none;
+.manageOnlinePlayerGui {
+    display: block;
     position: fixed;
     top: 0;
     left: 0;
@@ -53,7 +9,7 @@ body {
     z-index: 1000;
 }
 
-.addServerGuiContent {
+.manageOnlinePlayerGui .content {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -61,26 +17,22 @@ body {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
-    height: 350px;
+    width: 400px;
+    height: 450px;
     background-color: var(--light);
     padding: 5px;
     border-radius: 7.5px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.3);
 }
 
-.addServerGuiContentTitlebar {
-    display: flex;
-    flex-direction: row;
-}
-
-.addServerGuiContent .title {
+.manageOnlinePlayerGui .title {
     position: relative;
     top: 10px;
     margin: 15px 0px 20px 0px;
     color: var(--green);
 }
 
-.addServerGuiContent .closeButton {
+.manageOnlinePlayerGui .closeButton {
     position: absolute;
     display: flex;
     align-self: flex-end;
@@ -98,7 +50,7 @@ body {
     transition-duration: 300ms;
 }
 
-.addServerGuiContent .closeButtonIcon {
+.manageOnlinePlayerGui .closeButtonIcon {
     height: 20px;
     width: 20px;
     fill: var(--grey);
@@ -108,21 +60,39 @@ body {
     transition-duration: 300ms;
 }
 
-.addServerGuiContent .closeButton:hover {
+.manageOnlinePlayerGui .closeButton:hover {
     cursor: pointer;
     background-color: transparent;
     transition-duration: 300ms;
 }
 
-.addServerGuiContent .closeButton:hover .closeButtonIcon {
+.manageOnlinePlayerGui .closeButton:hover .closeButtonIcon {
     fill: var(--red);
     transition-duration: 300ms;
 }
 
-.addServerGuiContent .input {
+.row {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    justify-content: start;
+    margin-bottom: 15px;
+}
+
+.label {
+    color: white;
+}
+
+.actions {
+    display: flex;
+    flex-direction: row;
+}
+
+.manageOnlinePlayerGui .input {
+    flex: 1;
     width: 250px;
     height: 25px;
-    margin: 15px 15px 0px 15px;
+    margin: 2.5px 5px 15px 15px;
     padding: 2.5px 5px 2.5px 5px;
     color: white;
     background-color: var(--dark);
@@ -132,31 +102,25 @@ body {
     transition-duration: 250ms;
 }
 
-.addServerGuiContent .input:focus {
+.manageOnlinePlayerGui .input:focus {
     border: 2px solid var(--blurple);
     transition-duration: 250ms;
 }
 
-.addServerGuiContent .addButton {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    width: 260px;
-    height: 35px;
-    padding: 2px;
-    margin: 20px 15px 15px 15px;
-    font-size: 16.5px;
-    outline: none;
-    background-color: var(--green);
-    color: var(--grey);
-    border: 2px solid var(--green);
+.runButton {
+    height: 32.5px;
+    width: 75px;
+    padding: 5px;
+    border: 1px solid var(--blurple);
     border-radius: 5px;
+    background-color: var(--blurple);
     color: var(--grey);
+    text-align: center;
+    transition-duration: 300ms;
 }
 
-.addServerGuiContent .addButton:hover {
-    cursor: pointer;
+.runButton:hover {
     background-color: transparent;
-    color: var(--green);
+    color: var(--blurple);
     transition-duration: 300ms;
 }

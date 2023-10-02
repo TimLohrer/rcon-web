@@ -15,3 +15,23 @@
     font-weight: 600;
     margin-bottom: 10px;
 }
+
+.info .fields {
+    display: flex;
+    flex-direction: row;
+}
+
+.info .keys {
+    display: flex;
+    flex-direction: column;
+    margin-right: 10px;
+    justify-content: space-between;
+    color: var(--elight);
+}
+
+.info .values {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    color: var(--elight);
+}

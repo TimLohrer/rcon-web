@@ -1,12 +1,17 @@
 <div class="info">
     <h3 class="title">Info</h3>
-    <p class="key">Online Players:
-    <p class="onlinePlayers">{{ info.onlinePlayers.length }} / {{ info.maxPlayers }}</p>
-    </p>
-    <p class="key">Difficulty:
-    <p class="difficulty">{{ info.difficulty }}</p>
-    </p>
-    <p class="key">Seed:
-    <p class="seed">{{ info.seed }}</p>
-    </p>
+    <div class="fields">
+        <div class="keys">
+            <p class="key">Online Players:</p>
+            <p class="key">Banned players:</p>
+            <p class="key">Difficulty:</p>
+            <p class="key">Seed:</p>
+        </div>
+        <div class="values">
+            <p class="onlinePlayercount">{{ info.onlinePlayers.length }} / {{ info.maxPlayers }}</p>
+            <p class="bannedPlayers">{{ info.bannedPlayers }}</p>
+            <p class="difficulty">{{ info.difficulty }}</p>
+            <p class="seed">{{ info.seed }}</p>
+        </div>
+    </div>
 </div>

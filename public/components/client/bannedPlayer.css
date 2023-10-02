@@ -1,0 +1,79 @@
+.bannedPlayer {
+    display: flex;
+    margin-bottom: 10px;
+    transition-delay: .5s;
+}
+
+.bannedPlayer .playerName {
+    display: flex;
+    flex: 1;
+    height: 32.5px;
+    margin-right: 7.5px;
+    padding-left: 10px;
+    background-color: var(--light);
+    color: var(--elight);
+    border-radius: 5px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.bannedPlayer .unbanButton {
+    display: flex;
+    height: 32.5px;
+    width: 32.5px;
+    margin-right: 7.5px;
+    background-color: var(--green);
+    outline: none;
+    border: 1px solid var(--green);
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 300ms;
+}
+
+.bannedPlayer .unbanButton svg {
+    height: 17.5px;
+    width: 17.5px;
+    fill: var(--grey);
+    transition-duration: 300ms;
+}
+
+.bannedPlayer .unbanButton:hover {
+    background-color: transparent;
+    transition-duration: 300ms;
+}
+
+.bannedPlayer .unbanButton:hover svg {
+    fill: var(--green);
+    transition-duration: 300ms;
+}
+
+.bannedPlayer .infoButton {
+    display: flex;
+    height: 32.5px;
+    width: 32.5px;
+    background-color: var(--yellow);
+    outline: none;
+    border: 1px solid var(--yellow);
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 300ms;
+}
+
+.bannedPlayer .infoButton svg {
+    height: 17.5px;
+    width: 17.5px;
+    fill: var(--grey);
+    transition-duration: 300ms;
+}
+
+.bannedPlayer .infoButton:hover {
+    background-color: transparent;
+    transition-duration: 300ms;
+}
+
+.bannedPlayer .infoButton:hover svg {
+    fill: var(--yellow);
+    transition-duration: 300ms;
+}

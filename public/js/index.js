@@ -56,13 +56,11 @@ function selectServer(server) {
 }
 
 function openAddServerGui() {
-    const gui = document.getElementById('addServerGui');
-    gui.style.display = 'block';
+    document.getElementById('addServerGui').style.display = 'block';
 }
 
 function closeAddServerGui() {
-    const gui = document.getElementById('addServerGui');
-    gui.style.display = 'none';
+    document.getElementById('addServerGui').style.display = 'none';
 }
 
 function addServer() {

@@ -1,0 +1,48 @@
+.onlinePlayer {
+    display: flex;
+    margin-bottom: 10px;
+    transition-delay: .5s;
+}
+
+.onlinePlayer .playerName {
+    display: flex;
+    flex: 1;
+    height: 32.5px;
+    margin-right: 7.5px;
+    padding-left: 10px;
+    background-color: var(--light);
+    color: var(--elight);
+    border-radius: 5px;
+    align-items: center;
+    justify-content: flex-start;
+}
+
+.onlinePlayer .manageButton {
+    display: flex;
+    height: 32.5px;
+    width: 32.5px;
+    background-color: var(--blurple);
+    outline: none;
+    border: 1px solid var(--blurple);
+    border-radius: 5px;
+    align-items: center;
+    justify-content: center;
+    transition-duration: 300ms;
+}
+
+.onlinePlayer .manageButton svg {
+    height: 17.5px;
+    width: 17.5px;
+    fill: var(--grey);
+    transition-duration: 300ms;
+}
+
+.onlinePlayer .manageButton:hover {
+    background-color: transparent;
+    transition-duration: 300ms;
+}
+
+.onlinePlayer .manageButton:hover svg {
+    fill: var(--blurple);
+    transition-duration: 300ms;
+}

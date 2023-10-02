@@ -1,4 +1,4 @@
-.whitelist {
+.onlinePlayers {
     display: flex;
     flex-direction: column;
     flex: 1;
@@ -10,7 +10,7 @@
     overflow-y: auto;
 }
 
-.whitelist .title {
+.onlinePlayers .title {
     color: white;
     font-size: 20px;
     font-weight: 600;

@@ -22,6 +22,22 @@ function executeCommandAsPlayer(playerName) {
     rconClients[selectedServer].sendCommand(`execute as ${playerName} run ${command}`);
 }
 
+function teleportPlayer(playerName) {
+    const xInput = document.getElementById('manageOnlinePlayerTeleportPlayerX');
+    const yInput = document.getElementById('manageOnlinePlayerTeleportPlayerY');
+    const zInput = document.getElementById('manageOnlinePlayerTeleportPlayerZ');
+    let x = xInput.value;
+    let y = yInput.value;
+    let z = zInput.value;
+    if (x == '' || y == '' || z == '') {
+        return;
+    }
+    xInput.value = '';
+    yInput.value = '';
+    zInput.value = '';
+    rconClients[selectedServer].sendCommand(`execute at ${playerName} run tp ${playerName} ${x} ${y} ${z}`);
+}
+
 function changeGamemode(playerName, gamemode) {
     rconClients[selectedServer].sendCommand(`gamemode ${gamemode} ${playerName}`);
 }

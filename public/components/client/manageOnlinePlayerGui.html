@@ -13,42 +13,58 @@
         <div class="row">
             <p class="label">Send message</p>
             <div class="actions">
-                <input type="text" class="input" id="manageOnlinePlayerSendMessage">
-                <button class="runButton send" onclick="sendMessageToPlayer('{{ playerName }}')">Send</button>
+                <input type="text" class="input" id="manageOnlinePlayerSendMessage" placeholder="Message">
+                <button class="actionButton runButton send"
+                    onclick="sendMessageToPlayer('{{ playerName }}')">Send</button>
             </div>
         </div>
         <div class="row">
             <p class="label">Execute command</p>
             <div class="actions">
-                <input type="text" class="input" id="manageOnlinePlayerExecuteCommandAsPlayer">
-                <button class="runButton execute" onclick="executeCommandAsPlayer('{{ playerName }}')">Execute</button>
+                <p class="prefix">/</p>
+                <input type="text" class="input" id="manageOnlinePlayerExecuteCommandAsPlayer" placeholder="Command">
+                <button class="actionButton runButton execute"
+                    onclick="executeCommandAsPlayer('{{ playerName }}')">Execute</button>
+            </div>
+        </div>
+        <div class="row">
+            <p class="label">Teleport</p>
+            <div class="actions">
+                <p class="prefixX">X:</p>
+                <input type="number" class="input teleport" id="manageOnlinePlayerTeleportPlayer" placeholder="">
+                <p class="prefixY">Y:</p>
+                <input type="number" class="input teleport" id="manageOnlinePlayerTeleportPlayer" placeholder="">
+                <p class="prefixZ">Z:</p>
+                <input type="number" class="input teleport" id="manageOnlinePlayerTeleportPlayer" placeholder="">
+                <button class="actionButton runButton teleport"
+                    onclick="teleportPlayer('{{ playerName }}')">Teleport</button>
             </div>
         </div>
         <div class="row">
             <p class="label">Change gamemode</p>
             <div class="actions">
-                <button class="gamemodeButton creative"
+                <button class="actionButton gamemodeButton creative"
                     onclick="changeGamemode('{{ playerName }}', 'creative')">Creative</button>
-                <button class="gamemodeButton survival"
+                <button class="actionButton gamemodeButton survival"
                     onclick="changeGamemode('{{ playerName }}', 'survival')">Survival</button>
-                <button class="gamemodeButton advanture"
+                <button class="actionButton gamemodeButton advanture"
                     onclick="changeGamemode('{{ playerName }}', 'adventure')">Adventure</button>
-                <button class="gamemodeButton spectator"
+                <button class="actionButton gamemodeButton spectator"
                     onclick="changeGamemode('{{ playerName }}', 'spectator')">Spectator</button>
             </div>
         </div>
         <div class="row">
             <p class="label">Kick</p>
             <div class="actions">
-                <input type="text" class="input" id="manageOnlinePlayerKick">
-                <button class="kickBanButton kick" onclick="kickPlayer('{{ playerName }}')">Kick</button>
+                <input type="text" class="input" id="manageOnlinePlayerKick" placeholder="Reason (optional)">
+                <button class="actionButton kickBanButton kick" onclick="kickPlayer('{{ playerName }}')">Kick</button>
             </div>
         </div>
         <div class="row">
             <p class="label">Ban</p>
             <div class="actions">
-                <input type="text" class="input" id="manageOnlinePlayerBan">
-                <button class="kickBanButton ban" onclick="banPlayer('{{ playerName }}')">Ban</button>
+                <input type="text" class="input" id="manageOnlinePlayerBan" placeholder="Reason (optional)">
+                <button class="actionButton kickBanButton ban" onclick="banPlayer('{{ playerName }}')">Ban</button>
             </div>
         </div>
     </div>

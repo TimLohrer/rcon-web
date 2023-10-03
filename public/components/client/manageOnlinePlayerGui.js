@@ -3,18 +3,22 @@ function closeManageOnlinePlayerGui() {
 }
 
 function sendMessageToPlayer(playerName) {
-    const message = document.getElementById('manageOnlinePlayerSendMessage').value;
+    const input = document.getElementById('manageOnlinePlayerSendMessage');
+    const message = input.value;
     if (!message) {
         return;
     }
+    input.value = '';
     rconClients[selectedServer].sendCommand(`tellraw ${playerName} {"text": "\\n\\n<RCON-Web-Dashboard> ${message}\\n\\n "}`);
 }
 
 function executeCommandAsPlayer(playerName) {
-    const command = document.getElementById('manageOnlinePlayerExecuteCommandAsPlayer').value;
+    const input = document.getElementById('manageOnlinePlayerExecuteCommandAsPlayer');
+    let command = input.value;
     if (!command) {
         return;
     }
+    input.value = '';
     rconClients[selectedServer].sendCommand(`execute as ${playerName} run ${command}`);
 }
 
@@ -23,11 +27,15 @@ function changeGamemode(playerName, gamemode) {
 }
 
 function kickPlayer(playerName) {
-    const reason = document.getElementById('manageOnlinePlayerKick').value;
-    rconClients[selectedServer].sendCommand(`kick ${playerName} ${reason ?? '[RCON-Web-Dashboard]: Kicked by an Operator.'}`);
+    const input = document.getElementById('manageOnlinePlayerKick');
+    const reason = input.value;
+    input.value = '';
+    rconClients[selectedServer].sendCommand(`kick ${playerName} ${`[RCON-Web-Dashboard] ${reason}` ?? '[RCON-Web-Dashboard]: Kicked by an Operator.'}`);
 }
 
 function banPlayer(playerName) {
-    const reason = document.getElementById('manageOnlinePlayerBan').value;
-    rconClients[selectedServer].sendCommand(`ban ${playerName} ${reason ?? '[RCON-Web-Dashboard]: Banned by an Operator.'}`);
+    const input = document.getElementById('manageOnlinePlayerBan');
+    const reason = input.value;
+    input.value = '';
+    rconClients[selectedServer].sendCommand(`ban ${playerName} ${`[RCON-Web-Dashboard] ${reason}` ?? '[RCON-Web-Dashboard]: Banned by an Operator.'}`);
 }

@@ -1,6 +1,6 @@
 const rconClients = {};
 const INFO_COMMANDS = ['list', 'difficulty', 'seed', 'datapack list', 'banlist', 'whitelist list'];
-const DEBUG_MODE = true;
+const DEBUG_MODE = false;
 
 class RCON {
     constructor(server) {
@@ -120,7 +120,9 @@ class RCON {
                     serverInfo += info_component(this.serverInfo);
 
                     let onlinePlayers = '';
-                    this.serverInfo.onlinePlayers.push('DEFAULT')
+                    if (DEBUG_MODE) {
+                        this.serverInfo.onlinePlayers.push('DEFAULT');
+                    }
                     this.serverInfo.onlinePlayers.forEach(onlinePlayer => {
                         onlinePlayer = onlinePlayer_component(onlinePlayer);
                         if (this.animateIn && this.serverInfo.onlinePlayers.indexOf(onlinePlayer) < 6) {

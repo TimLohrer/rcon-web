@@ -159,7 +159,18 @@ class RCON {
                     // }
                     // serverInfo += bans_component(bannedPlayers);
 
-                    serverInfo += datapacks_component(this.serverInfo);
+                    let datapacks = '';
+                    this.serverInfo.datapacks.forEach(datapack => {
+                        datapack = datapack_component(datapack);
+                        if (this.animateIn && this.serverInfo.datapacks.indexOf(datapack) < 6) {
+                            datapack = bannedPlayer.replace('class="datapack"', 'class="hidden top datapack"');
+                        }
+                        datapacks += datapack;
+                    });
+                    if (this.serverInfo.datapacks.length == 0) {
+                        datapacks += emptyDatapacks_component(this.animateIn ? 'hidden top ' : '');
+                    }
+                    serverInfo += datapacks_component(datapacks);
 
                     if (this.animateIn) {
                         serverInfo = serverInfo.replace('class="info"', 'class="hidden left info"');

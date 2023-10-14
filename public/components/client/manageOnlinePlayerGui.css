@@ -134,14 +134,14 @@
     transition-duration: 250ms;
 }
 
-.manageOnlinePlayerGui .teleport {
-    width: 25px;
-    padding-left: 20px;
-}
-
 .manageOnlinePlayerGui .input:focus {
     border: 2px solid var(--blurple);
     transition-duration: 250ms;
+}
+
+.manageOnlinePlayerGui .teleport {
+    width: 25px;
+    padding-left: 20px;
 }
 
 .manageOnlinePlayerGui .actionButton {

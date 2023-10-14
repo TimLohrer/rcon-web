@@ -1,12 +1,12 @@
 <div class="console">
     <div class="history"></div>
-    <div class="input">
-        <form action="submit">
-            <div class="commandInput">
+    <div class="commandInput">
+        <form class="commandInputForm" id="commandInputForm" action="submit">
+            <div class="inputWrapper">
                 <p class="prefix">/</p>
-                <input type="text" placeholder="Command">
+                <input class="input" id="consoleCommandInput" type="text" placeholder="Command">
             </div>
-            <input type="submit">
+            <button class="sendButton" type="submit">Send</button>
         </form>
     </div>
 </div>

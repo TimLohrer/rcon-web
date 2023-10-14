@@ -69,7 +69,7 @@ class RCON {
             alert(message)
         } else if (packet == 'RCON_SUCCESS_RESPONSE' || (packet == 'RCON_ERROR_RESPONSE' && DEBUG_MODE)) {
             const command = args[1].replaceAll('.', ' ');
-            message = args.slice(2).join(' ')
+            message = args.slice(2).join(' ');
             if (INFO_COMMANDS.includes(command) || DEBUG_MODE) {
                 this.recivedServerInfoCommands.push(command);
                 if (command == 'list') {
@@ -174,12 +174,17 @@ class RCON {
                     }
                     serverInfo += datapacks_component(datapacks);
 
+                    let serverConsole = console_component();
+
                     if (this.animateIn) {
                         serverInfo = serverInfo.replace('class="info"', 'class="hidden left info"');
                         serverInfo = serverInfo.replace('class="onlinePlayers"', 'class="hidden left onlinePlayers"');
                         serverInfo = serverInfo.replace('class="whitelist"', 'class="hidden right whitelist"');
                         // serverInfo = serverInfo.replace('class="bans"', 'class="hidden right bans"');
                         serverInfo = serverInfo.replace('class="datapacks"', 'class="hidden right datapacks"');
+                        serverConsole = serverConsole.replace('class="history"', 'class="history hidden top"')
+                        serverConsole = serverConsole.replace('class="commandInput"', 'class="commandInput hidden top"')
+                        document.getElementById('serverConsole').innerHTML = serverConsole;
                     }
                     document.getElementById('serverInfo').innerHTML = serverInfo;
                     this.animateIn = false;

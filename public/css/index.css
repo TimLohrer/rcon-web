@@ -39,7 +39,6 @@ body {
 
 #serverConsole {
     height: 57vh;
-    background-color: var(--dark);
 }
 
 .addServerGui {

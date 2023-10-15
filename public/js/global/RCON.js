@@ -165,7 +165,7 @@ class RCON {
                     this.serverInfo.datapacks.forEach(datapack => {
                         datapack = datapack_component(datapack);
                         if (this.animateIn && this.serverInfo.datapacks.indexOf(datapack) < 6) {
-                            datapack = bannedPlayer.replace('class="datapack"', 'class="hidden top datapack"');
+                            datapack = datapack.replace('class="datapack"', 'class="hidden top datapack"');
                         }
                         datapacks += datapack;
                     });
